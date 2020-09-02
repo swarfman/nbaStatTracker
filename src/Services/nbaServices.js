@@ -4,6 +4,12 @@ var instance = axios.create({
     baseURL: "https://api-nba-v1.p.rapidapi.com/"
 });
 
+var newsInstance = axios.create({
+    baseURL: 'http://newsapi.org/v2'
+});
+
+
+////    return instance.get("/standings/standard/2019", {
 const getTeams = (headerData) =>{
     return instance.get("/teams/league/standard", {
         headers: {
@@ -44,9 +50,28 @@ const getPlayerStats = (data) =>{
         }
     })
 }
+
+const formatDate = () =>{
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    
+    today = yyyy + '-' + mm + '-' + dd;
+    return today;
+}
+
+
+const getTeamNews = (data) =>{
+    return newsInstance.get("/everything?q="+data+"&from="+formatDate()+"&sortBy=popularity&apiKey=8b08d0e5e5d84a7b8a7ce2d6af5a9922", {
+    })
+};
+
+
 export default {
     getTeam: getTeam,
     getPlayerStats: getPlayerStats,
     getTeams: getTeams,
-    getTeamLogo: getTeamLogo
+    getTeamLogo: getTeamLogo,
+    getTeamNews:getTeamNews
 }

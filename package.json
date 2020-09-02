@@ -11,12 +11,16 @@
     "ag-grid-community": "^23.2.1",
     "ag-grid-react": "^23.2.1",
     "axios": "^0.20.0",
+    "google-news-json": "^1.0.3",
+    "google-news-scraper": "^1.0.4",
+    "puppeteer": "^5.2.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",
     "react-scripts": "3.4.3",
     "react-table": "^7.5.0",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "uniqid": "^5.2.0"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -11,21 +11,21 @@ function Table (props){
             columnDefs: [{
               headerName: "Name", field: "name"
             }, {
-              headerName: "Points per Game", field: "points"
+              headerName: "Career Points per Game", field: "points"
             },{
-              headerName: "Rebounds per Game", field: "rebounds"
+              headerName: "Career Rebounds per Game", field: "rebounds"
             },{
-              headerName: "Assists per Game", field: "assists"
+              headerName: "Career Assists per Game", field: "assists"
             },{
-              headerName: "Steals per Game", field: "steals"
+              headerName: "Career Steals per Game", field: "steals"
             },{
-              headerName: "Blocks per Game", field: "blocks"
+              headerName: "Career Blocks per Game", field: "blocks"
             },{
-              headerName: "Fouls per Game", field: "fouls"
+              headerName: "Career Fouls per Game", field: "fouls"
             }, {
-              headerName: "Field Goal %", field: "fieldGoalPercentage"
+              headerName: "Career Field Goal %", field: "fieldGoalPercentage"
             },{
-              headerName: "Three Point %", field: "threePointPercentage"
+              headerName: "Career Three Point %", field: "threePointPercentage"
             },
         ]},
         });
@@ -43,8 +43,10 @@ function Table (props){
       <div
         className="ag-theme-alpine"
         style={{
-        height: '300px',
-        width: '800px' }}
+        height: '320px',
+        width: '1200px',
+        fontSize: "15px"
+       }}
       >
         <AgGridReact
           columnDefs={tableData.columns.columnDefs}

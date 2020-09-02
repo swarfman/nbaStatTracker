@@ -16,18 +16,25 @@ import { SET_ID } from '../../action-types';
 const useStyles = makeStyles((theme) => ({
   root: {
      flexGrow: 1,
+     borderBottom: "1px white",
+     backgroundColor: "green"
+    // borderColor: "white"
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
+    textAlign: "center",
+    justifyContent: "center"
   },
 }));
 
-
+var uniqid = require('uniqid');
 
 export default function Navbar() {
+  // console.log(uniqid());
+ // const googleNewsScraper = require('google-news-scraper');
   const dispatch = useDispatch();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -43,7 +50,7 @@ export default function Navbar() {
     setAnchorEl(null);
     let indexOfSliceCharacter = event.target.innerHTML.indexOf("<");
     let finalString = event.target.innerHTML.substring(0, indexOfSliceCharacter);
-    dispatch({type: SET_ID, payload: event.target.id});
+    dispatch({type: SET_ID, payload: event.target.id, teamName: finalString});
     updateTeam(event.target.id);
   };
 
@@ -51,7 +58,7 @@ export default function Navbar() {
      try{
       let result = await NBAServices.getTeamLogo(id).then(result =>{
         let logoURL = result.data.api.teams[0].logo;
-        setLogo(<div style={{height: "20"}}><img style={{height: "20%", width: "20%"}} alt="team-logo" src={logoURL} /></div>);
+        setLogo(<div style={{height: "10"}}><img style={{height: "10%", width: "10%"}} alt="team-logo" src={logoURL} /></div>);
       });
     }
     catch{
@@ -63,6 +70,7 @@ export default function Navbar() {
     return <MenuItem onClick={handleClose} id={teamObject.teamId} value={teamObject.fullName}>{teamObject.fullName}</MenuItem>
  }
 
+
   useEffect(() => {
     // Will need to make a call to the api here that updates 
     //the logo and team. And then I need to update a global variable 
@@ -73,6 +81,7 @@ export default function Navbar() {
       let displayedTeamNames = [];
       try{
         let result = await NBAServices.getTeams().then(result =>{
+          console.log(result);
           let teams = result.data.api.teams;
           for (let i=0;i<=teams.length-1; i++){
             let menuItem = createMenuItems(teams[i]);
@@ -84,13 +93,14 @@ export default function Navbar() {
       catch{
        // console.log("error");
       }
+
     }
     getTeams();
   }, []);
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" style={{ background: '#4B0082', marginBottom: "10px" }}>
+      <AppBar position="static" style={{ background: '#4B0082', marginBottom: "10px", borderBottom: "3px solid white" }}>
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
               <MenuIcon onClick={handleClick} />
@@ -104,7 +114,7 @@ export default function Navbar() {
               </Menu>
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-          {logo ? logo: "Your Team's "} News and Stats
+          {logo ? logo: "Your Team's "} Stats and News
           </Typography>
         </Toolbar>
       </AppBar>

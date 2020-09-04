@@ -8,51 +8,109 @@ import { makeStyles } from '@material-ui/core/styles';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { connect } from "react-redux";
+import Carousel from 'react-material-ui-carousel'
+import {Paper} from '@material-ui/core'
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
+    container: {
+        spacing: 3
+    },
     root: {
-        maxWidth: 945,
-        padding: 3,
-        marginBottom: 10,
+        width: "400px",
+        maxHeight: 460,
         textAlign: "center",
+        justifyContent: "center",
         border: "2px solid #778899",
         boxShadow: "1px 1px 1px 1px",
-        borderRadius: "5px"
+        borderRadius: "5px",
+        backgroundColor: "#F5F5F5"
+      },
+      title:{
+          fontSize: "16px"
       },
       media: {
-        height: 0,
+        height: 230,
         width: "100%",
-        paddingTop: '46.25%'
+        overflow: 'hidden'
+       // paddingTop: '56.25%',
+      },
+      description:{
+          fontSize: "14px"
       }
   }));
 
 function NewsFeed (props){
     const classes = useStyles();
-    const [newsData, setNewsData] = React.useState("Select Team to View Team News");
+    const [newsData, setNewsData] = React.useState();
 
-    const createCards = (articles) =>{
-        let articleArray = articles.articles;
+    const Item = (props) =>{
+        return (
+            <Paper>
+                <h2>{props.item.name}</h2>
+                <p>{props.item.description}</p>
+            </Paper>
+        )
+    };
+
+    const items = [
+        {
+            name: "Random Name #1",
+            description: "Probably the most random thing you have ever seen!"
+        },
+        {
+            name: "Random Name #2",
+            description: "Hello World!"
+        }
+    ];
+
+
+    const CreateCards = () =>{
+        let singleElements = [];
         let finalElements = [];
 
-        for (let i=0; i<=5;i++){
-         //   console.log(articleArray[i]);
-
-            finalElements.push(
-                <Card className={classes.root}>
-                    <CardHeader
-                    title={articleArray[i].title}
-                    />
-                    <a href={articleArray[i].url} target="_blank"  rel="noopener noreferrer">
+        for (let i=0; i<=newsData.length-1;i++){
+            singleElements.push(<Grid item xs ={4}>
+                 <Card className={classes.root}>
+                    <a href={newsData[i].url} target="_blank"  rel="noopener noreferrer">
                     <CardMedia
                         className={classes.media}
-                        image={articleArray[i].image} />
+                        image={newsData[i].image}
+                        title="google-news"
+                    />
                     </a>
-                <CardContent>
-                  <p>{articleArray[i].description}</p>
+                    <CardHeader
+                    className={classes.title}
+                    title={newsData[i].title}
+                    />
+                <CardContent className={classes.description}>
+                  <p>{newsData[i].description}</p>
                 </CardContent>  
               </Card>
+              </Grid>
             )
         }
+
+        let firstSlide = [];
+        let secondSlide =[];
+        let thirdSlide = [];
+        console.log(singleElements);
+        for (let k=0;k<=singleElements.length-1;k++){
+            if (k<3){
+                firstSlide.push(singleElements[k]);
+            }
+            if (k<6 && k>2){
+                secondSlide.push(singleElements[k]);
+
+            }
+            if (k<9 && k>5){
+                thirdSlide.push(singleElements[k]);
+            }
+        }
+
+        finalElements.push(<Grid container spacing={0}>{firstSlide}</Grid>);
+        finalElements.push(<Grid container spacing={0}>{secondSlide}</Grid>);
+        finalElements.push(<Grid container spacing={0}>{thirdSlide}</Grid>);
         return finalElements;
         
 
@@ -68,7 +126,8 @@ function NewsFeed (props){
             let googleNews = result.json();
             return googleNews;
            }).then (result =>{
-               setNewsData(createCards(result));
+               console.log(result.articles);
+               setNewsData(result.articles);
            })
 
           }
@@ -80,8 +139,21 @@ function NewsFeed (props){
   }, [props.id]);
 
 
+
+
   return(
-    <div>{newsData}</div>
+    <div>
+        {/* <div>{newsData}</div> */}
+        <div>
+            <Carousel style={{height: "200"}}>
+        {
+            newsData ? 
+            CreateCards():
+            "Hello World"
+        }
+            </Carousel>
+        </div>
+    </div>
 )
 }
 const mapStateToProps = state =>{

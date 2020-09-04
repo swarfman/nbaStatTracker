@@ -16,6 +16,7 @@
     "puppeteer": "^5.2.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-material-ui-carousel": "^1.8.3",
     "react-redux": "^7.2.1",
     "react-scripts": "3.4.3",
     "react-table": "^7.5.0",

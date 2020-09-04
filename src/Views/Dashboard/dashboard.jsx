@@ -14,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
       marginLeft: 10,
     },
+    newsfeedContainer:{
+     // height: "320px"
+    }
 }));
 
 function Dashboard(props) {
@@ -105,7 +108,7 @@ function Dashboard(props) {
     
           let threePointPercentage = totalMadeThreePointers/totalThreePointAttempts * 100;
           playerObject.threePointPercentage = threePointPercentage.toFixed(2);
-          console.log(playerObject);
+          //console.log(playerObject);
           playerArray.push(playerObject);
   
         }  
@@ -150,7 +153,7 @@ function Dashboard(props) {
       <h1 style={{color: "white", paddingLeft: "10"}}>News</h1>
       </Grid>
       <Grid item xs={12} className="container">
-      <Card>
+      <Card className = {classes.newsfeedContainer}>
         <CardContent>
           <NewsFeed  />
         </CardContent>  

@@ -108,7 +108,6 @@ function Dashboard(props) {
     
           let threePointPercentage = totalMadeThreePointers/totalThreePointAttempts * 100;
           playerObject.threePointPercentage = threePointPercentage.toFixed(2);
-          //console.log(playerObject);
           playerArray.push(playerObject);
   
         }  

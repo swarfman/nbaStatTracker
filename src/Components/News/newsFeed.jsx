@@ -4,6 +4,7 @@ import { Card } from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
@@ -17,53 +18,36 @@ const useStyles = makeStyles((theme) => ({
         spacing: 3
     },
     root: {
-        width: "400px",
-        maxHeight: 460,
+        width: "300px",
+        maxHeight: 450,
         textAlign: "center",
         justifyContent: "center",
         border: "2px solid #778899",
-        boxShadow: "1px 1px 1px 1px",
-        borderRadius: "5px",
+        // boxShadow: "1px 1px 1px 1px",
+       // borderRadius: "5px",
         backgroundColor: "#F5F5F5"
       },
       title:{
-          fontSize: "16px"
+          fontSize: "14px",
+          overflow: 'hidden',
+          textOverflow: "ellipsis"
       },
       media: {
-        height: 230,
-        width: "100%",
-        overflow: 'hidden'
-       // paddingTop: '56.25%',
+        height: 250,
+        width: "100%"
       },
       description:{
-          fontSize: "14px"
+          fontSize: "10px",
+          overflow: 'hidden',
+          textOverflow: "ellipsis"
       }
   }));
 
 function NewsFeed (props){
     const classes = useStyles();
     const [newsData, setNewsData] = React.useState();
-
-    const Item = (props) =>{
-        return (
-            <Paper>
-                <h2>{props.item.name}</h2>
-                <p>{props.item.description}</p>
-            </Paper>
-        )
-    };
-
-    const items = [
-        {
-            name: "Random Name #1",
-            description: "Probably the most random thing you have ever seen!"
-        },
-        {
-            name: "Random Name #2",
-            description: "Hello World!"
-        }
-    ];
-
+    const [navButton, setNavButton] = React.useState(false);
+    var uniqid = require('uniqid');
 
     const CreateCards = () =>{
         let singleElements = [];
@@ -80,11 +64,11 @@ function NewsFeed (props){
                     />
                     </a>
                     <CardHeader
-                    className={classes.title}
+                    classes={{title: classes.title}}
                     title={newsData[i].title}
                     />
                 <CardContent className={classes.description}>
-                  <p>{newsData[i].description}</p>
+                  <Typography noWrap >{newsData[i].description}</Typography>
                 </CardContent>  
               </Card>
               </Grid>
@@ -94,7 +78,7 @@ function NewsFeed (props){
         let firstSlide = [];
         let secondSlide =[];
         let thirdSlide = [];
-        console.log(singleElements);
+
         for (let k=0;k<=singleElements.length-1;k++){
             if (k<3){
                 firstSlide.push(singleElements[k]);
@@ -108,10 +92,12 @@ function NewsFeed (props){
             }
         }
 
-        finalElements.push(<Grid container spacing={0}>{firstSlide}</Grid>);
-        finalElements.push(<Grid container spacing={0}>{secondSlide}</Grid>);
-        finalElements.push(<Grid container spacing={0}>{thirdSlide}</Grid>);
+        finalElements.push(<Grid container spacing={1}>{firstSlide}</Grid>);
+        finalElements.push(<Grid container spacing={1}>{secondSlide}</Grid>);
+        finalElements.push(<Grid container spacing={1}>{thirdSlide}</Grid>);
+        console.log(finalElements);
         return finalElements;
+
         
 
     };
@@ -119,7 +105,7 @@ function NewsFeed (props){
   useEffect(() =>{
     //Write function to execute on component render.
     console.log(props.id, props.teamName);
-
+    setNavButton(false);
     async function getNews(){
         try{
            return await fetch("https://gnews.io/api/v3/search?q="+props.teamName+"&token=8713a511b4dbd0bb09c6db7e5605f356").then(result =>{
@@ -139,17 +125,33 @@ function NewsFeed (props){
   }, [props.id]);
 
 
+  const checkItems = (nextItem, activeItem) =>{
+    //  console.log(nextItem);
+      if (nextItem===2){
+          setNavButton(true);
+          console.log("Nothing Left!")
+      }
+  }
+
 
 
   return(
     <div>
-        {/* <div>{newsData}</div> */}
         <div>
-            <Carousel style={{height: "200"}}>
+            <Carousel
+            key={uniqid()}
+            next={(next, active) => checkItems(next, active)}             
+            autoPlay= {false}
+            animation= "fade"
+            indicators= {false}
+            timeout= {500}
+            navButtonsAlwaysVisible= {false}
+            navButtonsAlwaysInvisible= {navButton}
+            style={{height: "320"}}>
         {
             newsData ? 
             CreateCards():
-            "Hello World"
+            "Please select team to view news."
         }
             </Carousel>
         </div>

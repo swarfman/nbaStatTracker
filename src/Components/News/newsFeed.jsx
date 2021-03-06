@@ -4,6 +4,7 @@ import { Card } from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import 'ag-grid-community/dist/styles/ag-grid.css';
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     },
     root: {
         width: "300px",
-        maxHeight: 450,
+        height: 385,
         textAlign: "center",
         justifyContent: "center",
         border: "2px solid #778899",
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
       },
       title:{
           fontSize: "14px",
+          fontWeight: "bold",
           overflow: 'hidden',
           textOverflow: "ellipsis"
       },
@@ -37,8 +39,9 @@ const useStyles = makeStyles((theme) => ({
         width: "100%"
       },
       description:{
-          fontSize: "10px",
+          fontSize: "12px",
           overflow: 'hidden',
+          overflowWrap: "break-word",
           textOverflow: "ellipsis"
       }
   }));
@@ -67,9 +70,9 @@ function NewsFeed (props){
                     classes={{title: classes.title}}
                     title={newsData[i].title}
                     />
-                <CardContent className={classes.description}>
-                  <Typography noWrap >{newsData[i].description}</Typography>
-                </CardContent>  
+                <CardContent>
+                  <Typography noWrap classes={{root: classes.description}}>{newsData[i].description}</Typography>
+                </CardContent>
               </Card>
               </Grid>
             )

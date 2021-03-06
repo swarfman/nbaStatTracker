@@ -9,23 +9,23 @@ function Table (props){
 
         columns: {
             columnDefs: [{
-              headerName: "Name", field: "name"
+              headerName: "Name", field: "name", pinned: 'left'
             }, {
-              headerName: "Career Points per Game", field: "points"
+              headerName: "PPG", field: "points"
             },{
-              headerName: "Career Rebounds per Game", field: "rebounds"
+              headerName: "REB", field: "rebounds"
             },{
-              headerName: "Career Assists per Game", field: "assists"
+              headerName: "Assists", field: "assists"
             },{
-              headerName: "Career Steals per Game", field: "steals"
+              headerName: "Steals", field: "steals"
             },{
-              headerName: "Career Blocks per Game", field: "blocks"
+              headerName: "Blocks", field: "blocks"
             },{
-              headerName: "Career Fouls per Game", field: "fouls"
+              headerName: "Fouls", field: "fouls"
             }, {
-              headerName: "Career Field Goal %", field: "fieldGoalPercentage"
+              headerName: "Field Goal %", field: "fieldGoalPercentage"
             },{
-              headerName: "Career Three Point %", field: "threePointPercentage"
+              headerName: "Three Point %", field: "threePointPercentage"
             },
         ]},
         });

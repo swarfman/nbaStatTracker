@@ -1,15 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import { AgGridReact } from 'ag-grid-react';
+import { connect } from "react-redux";
+
+
+//core components
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 function Table (props){
-    const {data} = props;
+    const {data, tableColors} = props;
     const [tableData, setTableData] = React.useState({
-
         columns: {
             columnDefs: [{
-              headerName: "Name", field: "name", pinned: 'left'
+              headerName: "Name", 
+              field: "name", 
+              pinned: 'left', 
             }, {
               headerName: "PPG", field: "points"
             },{
@@ -30,10 +35,20 @@ function Table (props){
         ]},
         });
 
+  //  const rowClass = 'my-green-class';
+
+//   const getRowStyle = params => {
+//       console.log(rowColor);
+//       if (params.node.rowIndex % 2 === 0) {
+//           return { background:  rowColor};
+//       }
+//   };
+
   useEffect((props) =>{
       //
       if (data){
           setTableData({...tableData, rows: data});
+          console.log(tableColors);
      }
     
   }, [data]);
@@ -47,14 +62,18 @@ function Table (props){
         width: '1200px',
         fontSize: "15px"
        }}
-      >
-        <AgGridReact
-          columnDefs={tableData.columns.columnDefs}
-          rowData={tableData.rows}>
-        </AgGridReact>
+      >{tableColors ? 
+      <AgGridReact
+        columnDefs={tableData.columns.columnDefs}
+        rowData={tableData.rows}
+        rowStyle={tableColors}
+        >
+      </AgGridReact>: <h2>Please select team from Dropdown</h2>}
+
       </div>
     );
 
 }
+
 
 export default Table;

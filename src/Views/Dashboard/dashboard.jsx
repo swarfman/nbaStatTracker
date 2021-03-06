@@ -6,6 +6,10 @@ import CardContent from '@material-ui/core/CardContent';
 import Table from '../../Components/Table/table.jsx';
 import NewsFeed from '../../Components/News/newsFeed';
 import NBAServices from "../../Services/nbaServices";
+import teamAbbreviations from '../../teamAbbreviations.js';
+import { getMainColor, getSecondaryColor } from 'nba-color';
+import { SET_BG_COLOR } from '../../action-types';
+import {useDispatch} from "react-redux";
 import { connect } from "react-redux";
 import './dashboard.css'
 
@@ -21,12 +25,15 @@ const useStyles = makeStyles((theme) => ({
 
 function Dashboard(props) {
   const [teamData, setTeamData] = React.useState();
+  const [teamColor, setTeamColor] = React.useState(null);
+  const [teamSecondaryColor, setTeamSecondaryColor] = React.useState(null)
+  const dispatch = useDispatch();
   const classes = useStyles();
 
   const getPlayer = async (result) =>{
     let playerArray = [];
     let providedArray = result.data.api.players;
-    console.log(providedArray);
+
     for (let i=0;i<=providedArray.length-1;i++){
       if (!providedArray[i].leagues.standard){
         i++;
@@ -40,8 +47,8 @@ function Dashboard(props) {
           let totalPoints = 0;
           let totalRebounds = 0;
           let totalAssists = 0;
-          let totalGames=0;
-          let totalSteals=0;
+          let totalGames = 0;
+          let totalSteals = 0;
           let totalBlocks = 0;
           let totalFouls = 0;
           let totalFieldGoals = 0
@@ -119,11 +126,23 @@ function Dashboard(props) {
       setTeamData(playerArray);
 }
 
+const getColors = () =>{
+  if (props.teamName){
+    let abbreviation = teamAbbreviations.teamAbbreviations(props.teamName);
+    let color = getMainColor(abbreviation);
+    let secondaryColor = getSecondaryColor(abbreviation);
+    setTeamColor({background: secondaryColor.hex.toString(), color: color.hex.toString()});
+    document.body.style.backgroundColor = color.hex.toString();
+    //dispatch({type: SET_BG_COLOR, payload: color.hex.toString());
+}
+}
+
   useEffect(() => {
     async function getTeamData(){
       try{
         let result = await NBAServices.getTeam(props.id).then(result =>{
          // console.log(result);
+          getColors();
           getPlayer(result);
         })
       }
@@ -139,17 +158,17 @@ function Dashboard(props) {
   return (
     <Grid spacing={2} className={classes.root}>
       <Grid item xs={12}>
-      <h1 style={{color: "white", paddingLeft: "10"}}>Stats</h1>
+      <h1 className = "container" style={{color: "white"}}>Stats</h1>
       </Grid>
     <Grid item xs={12} className='container'>
       <Card>
         <CardContent>
-          <Table data={teamData} />
+          <Table data={teamData} teamName={props.teamName ? props.teamName: null} tableColors = {teamColor}/>
         </CardContent>  
       </Card>
       </Grid>
       <Grid item xs={12}>
-      <h1 style={{color: "white", paddingLeft: "10"}}>News</h1>
+      <h1 className='container' style={{color: "white"}}>News</h1>
       </Grid>
       <Grid item xs={12} className="container">
       <Card className = {classes.newsfeedContainer}>
@@ -164,7 +183,8 @@ function Dashboard(props) {
 
 const mapStateToProps = state =>{
   return{
-    id: state.id
+    id: state.id,
+    teamName: state.teamName
   }
 }
 

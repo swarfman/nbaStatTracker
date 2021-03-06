@@ -1,4 +1,4 @@
-import {SET_ID} from "../action-types";
+import {SET_ID, SET_BG_COLOR} from "../action-types";
 
 const intialState = {
     id: 1,
@@ -13,6 +13,11 @@ function reducer (state = intialState, action){
                 id: action.payload,
                 teamName: action.teamName
             }
+            case SET_BG_COLOR:
+                return{
+                    ...state,
+                    bgColor: action.payload
+                }
 default:
     return state;
 }

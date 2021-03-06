@@ -6,6 +6,10 @@ html{
   background-color: black;
 }
 
+.container{
+  padding-bottom: 20px;
+}
+
 
 .App-logo {
   height: 40vmin;

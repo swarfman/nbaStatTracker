@@ -13,6 +13,7 @@
     "axios": "^0.20.0",
     "google-news-json": "^1.0.3",
     "google-news-scraper": "^1.0.4",
+    "nba-color": "^1.4.1",
     "puppeteer": "^5.2.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

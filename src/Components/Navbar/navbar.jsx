@@ -17,8 +17,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
      flexGrow: 1,
      borderBottom: "1px white",
-     backgroundColor: "green"
-    // borderColor: "white"
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -26,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
     textAlign: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
 }));
 
@@ -100,7 +98,7 @@ export default function Navbar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" style={{ background: '#4B0082', marginBottom: "10px", borderBottom: "3px solid white" }}>
+      <AppBar position="static" style={{ background: "#F8F8F8", paddingTop: '20px', color:'black', marginBottom: "10px", borderBottom: "3px solid white" }}>
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
               <MenuIcon onClick={handleClick} />
@@ -113,10 +111,10 @@ export default function Navbar() {
               {allTeams}
               </Menu>
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
+        </Toolbar>
+        <Typography variant="h6" className={classes.title}>
           {logo ? logo: "Your Team's "} Stats and News
           </Typography>
-        </Toolbar>
       </AppBar>
     </div>
   );
